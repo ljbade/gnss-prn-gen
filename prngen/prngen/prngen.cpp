@@ -240,10 +240,10 @@ int main()
 
 			for (unsigned char k = 0; k < 16; k++)
 			{
-				unsigned char inv = ~gps_ca[i][16 * j + k];
+				unsigned char bits = gps_ca[i][16 * j + k];
 				if ((16 * j + k) == 127)
-					inv = inv & 0xFE;
-				fprintf(src, "0x%02hhX", inv);
+					bits = bits & 0xFE;
+				fprintf(src, "0x%02hhX", bits);
 				if (k != 15)
 					fprintf(src, ",");
 			}
@@ -298,10 +298,10 @@ int main()
 
 			for (unsigned char k = 0; k < 16; k++)
 			{
-				unsigned char inv = ~bds_b1i[i][16 * j + k];
+				unsigned char bits = bds_b1i[i][16 * j + k];
 				if ((16 * j + k) == 255)
-					inv = inv & 0xFC;
-				fprintf(src, "0x%02hhX", inv);
+					bits = bits & 0xFC;
+				fprintf(src, "0x%02hhX", bits);
 				if (k != 15)
 					fprintf(src, ",");
 			}
@@ -354,10 +354,10 @@ int main()
 
 		for (unsigned char k = 0; k < 16; k++)
 		{
-			unsigned char inv = ~m[16 * j + k];
+			unsigned char bits = m[16 * j + k];
 			if ((16 * j + k) == 63)
-				inv = inv & 0xFE;
-			fprintf(src, "0x%02hhX", inv);
+				bits = bits & 0xFE;
+			fprintf(src, "0x%02hhX", bits);
 			if (k != 15)
 				fprintf(src, ",");
 		}
@@ -407,10 +407,10 @@ int main()
 
 			for (unsigned char k = 0; k < 16; k++)
 			{
-				unsigned char inv = ~gal_e1b[i][16 * j + k];
+				unsigned char bits = gal_e1b[i][16 * j + k];
 				if ((16 * j + k) == 511)
-					inv = inv & 0xF0;
-				fprintf(src, "0x%02hhX", inv);
+					bits = bits & 0xF0;
+				fprintf(src, "0x%02hhX", bits);
 				if (k != 15)
 					fprintf(src, ",");
 			}
