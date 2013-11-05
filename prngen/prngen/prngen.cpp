@@ -80,7 +80,7 @@ unsigned short int shift_glonass_g(unsigned short int* g_reg)
 	// Shift the G register by 1 clock
 	// G polynomial is 1 + x^5 + x^9, 9 bits
 
-	unsigned short int g_out    =  *g_reg & 0x0001;            // Output  comes from stage 9, which is bit 1
+	unsigned short int g_out    = (*g_reg & 0x0004)      >> 2; // Output  comes from stage 7, which is bit 3 (see the Russian ICD)
 	unsigned short int g_tap_9  = (*g_reg & 0x0001)      >> 0; // 1st tap comes from stage 9, which is bit 1
 	unsigned short int g_tap_5  = (*g_reg & 0x0010)      >> 4; // 2nd tap comes from stage 5, which is bit 5
 	unsigned short int g_fb     =  (g_tap_5 ^ g_tap_9)   << 8; // Taps are modulo 2 added together (XORed), then feedback into stage 1, which is bit 9
@@ -183,10 +183,6 @@ void gen_glonass_code(unsigned char* g)
 
 	// Create space to store the Gcode
 	memset(g, 0, 64);
-
-	// TODO: Must do 2 initial shifts to get the '1 1111 1100' first character mentioned in ICD?
-	shift_glonass_g(&g_reg);
-	shift_glonass_g(&g_reg);
 
 	// Generate the G chips
 	for (unsigned short int i = 0; i < 511; i++) // M code is 511 bits long
