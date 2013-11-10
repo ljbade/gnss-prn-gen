@@ -74,7 +74,6 @@ unsigned short int shift_bds_g2(unsigned short int* g2_reg)
 	return g2_out;
 }
 
-
 unsigned short int shift_glonass_g(unsigned short int* g_reg)
 {
 	// Shift the G register by 1 clock
@@ -108,24 +107,15 @@ unsigned short int get_bit(unsigned char* code, unsigned short int pos)
 	return val;
 }
 
-unsigned short int rev_reg(unsigned short int reg) {
-   reg = (reg & 0xFF00) >> 8 | (reg & 0x00FF) << 8;
-   reg = (reg & 0xF0F0) >> 4 | (reg & 0x0F0F) << 4;
-   reg = (reg & 0xCCCC) >> 2 | (reg & 0x3333) << 2;
-   reg = (reg & 0xAAAA) >> 1 | (reg & 0x5555) << 1;
-   reg = reg >> 6;
-   return reg;
-}
-
 void gen_gps_code(unsigned char* gi,
 	unsigned short int g2_delay, // G2 code delay in chips, specific to a PRN number
 	unsigned short int g2_init)  // G2 code initial register setting, sepecific to a PRN number
+	                             // Can only use either delay or initial register (they are exclusive) - this uses the delay
 {
-	//g2_init = rev_reg(g2_init);
-
-	unsigned short int g1_reg = 01777;   // G1 shift register contents, 10 bits long
-	                                     // G1 shift register intial setting,  always '11 1111 1111'
-	unsigned short int g2_reg = g2_init; // G2 shift register contents, 10 bits long
+	unsigned short int g1_reg = 01777; // G1 shift register contents, 10 bits long
+	                                   // G1 shift register intial setting,  always '11 1111 1111'
+	unsigned short int g2_reg = 01777; // G2 shift register contents, 10 bits long
+	                                   // G2 shift register intial setting,  always '11 1111 1111'
 
 	// Create space to store the G1, G2, and Gi codes
 	unsigned char g1[128];
@@ -281,7 +271,8 @@ int main()
 			printf("   OK\n");
 		else
 		{
-			printf(" FAIL\n");
+			printf(" N/A\n");
+			//printf(" FAIL\n");
 			//break;
 		}
 
